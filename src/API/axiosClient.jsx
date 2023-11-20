@@ -8,7 +8,7 @@ const baseURL = process.env.REACT_APP_API_URL;
 // Set up default config for http requests here
 // Please have a look at here `https://github.com/axios/axios#requestconfig` for the full list of configs
 const axiosClient = axios.create({
-  baseURL: baseURL,
+  baseURL: 'https://asm3-be-4qtm.onrender.com/',
   headers: {
     "content-type": "application/json",
   },
