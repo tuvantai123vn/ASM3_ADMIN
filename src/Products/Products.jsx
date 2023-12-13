@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import queryString from "query-string";
 import ProductAPI from "../API/ProductAPI";
 import Pagination from "./Component/Pagination";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
 
 function Products(props) {
   const [products, setProducts] = useState([]);
   const [temp, setTemp] = useState([]);
-  const [total, setTotal] = useState([]);
-  const [results, setResults] = useState('');
+  const [results, setResults] = useState("");
+  const history = useHistory();
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [productToDeleteId, setProductToDeleteId] = useState("");
@@ -24,9 +24,10 @@ function Products(props) {
   };
 
   const confirmDelete = async () => {
-    const deleteproduct = await ProductAPI.delete(productToDeleteId);
+    await ProductAPI.delete(productToDeleteId);
     // Sau khi xóa thành công, bạn có thể cập nhật lại danh sách sản phẩm hoặc thực hiện các tương tác khác
     toggleDeleteModal();
+    history.replace("/products");
   };
 
   const [pagination, setPagination] = useState({
@@ -78,22 +79,22 @@ function Products(props) {
       const newQuery = "?" + query;
 
       const products = await ProductAPI.getPagination(newQuery);
+      const resultsNumber = parseInt(products.data.totalCount);
+
+      setResults(resultsNumber);
       setProducts(products.data.products);
       setTemp(products.data.products);
-      setResults(products.data.totalCount)
-      console.log(products);
-      // setPagination.page(products)
 
       //Tính tổng số trang = tổng số sản phẩm / số lượng sản phẩm 1 trang
 
-      const totalPa = Math.ceil(
-        parseInt(products.data.products.length) / parseInt(pagination.count)
-      ) + 1;
+      const totalPa =
+        Math.ceil(
+          parseInt(products.data.products.length) / parseInt(pagination.count)
+        ) + 1;
       setTotalPage(totalPa);
     };
     fetchAllData();
   }, [pagination]);
-  console.log(totalPage);
 
   return (
     <div className="page-wrapper">
@@ -166,19 +167,11 @@ function Products(props) {
                             <td>{value.name}</td>
                             <td>{value.price}</td>
                             <td>
-                              {value.img1.startsWith("http") ? (
-                                <img
-                                  src={value.img1}
-                                  style={{ height: "60px", width: "60px" }}
-                                  alt=""
-                                />
-                              ) : (
-                                <img
-                                  src={`http://localhost:5001/${value.img1}`}
-                                  style={{ height: "60px", width: "60px" }}
-                                  alt=""
-                                />
-                              )}
+                              <img
+                                src={value.img1}
+                                style={{ height: "60px", width: "60px" }}
+                                alt=""
+                              />
                             </td>
                             <td>{value.category}</td>
                             <td>

@@ -1,7 +1,8 @@
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Chat from "./Chat/Chat";
 import Header from "./Header/Header";
 import History from "./History/History";
+import DetailHistory from "./History/DetailHistory";
 import Home from "./Home/Home";
 import Menu from "./Menu/Menu";
 import Products from "./Products/Products";
@@ -22,7 +23,6 @@ function App() {
   const { role } = decodedToken;
   useEffect(() => {
     if (token) {
-      console.log('token', token);
       setLogin(true);
     }
   }, [token]);
@@ -73,6 +73,12 @@ function App() {
             <ProtectedRoute
               path="/history"
               component={History}
+              roles={["admin"]}
+              role={role}
+            />
+             <ProtectedRoute
+              path="/history/:id"
+              component={DetailHistory}
               roles={["admin"]}
               role={role}
             />

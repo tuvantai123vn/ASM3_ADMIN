@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { useHistory, Redirect } from "react-router-dom";
+import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 import "./Login.css";
 import UserAPI from "../API/UserAPI";
 import { createBrowserHistory } from "history";
+import { useCookies } from "react-cookie";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = createBrowserHistory();
   const [load, setLoad] = useState(false);
+  const [cookies, setCookie] = useCookies(["accessToken"]);
   const onChangeEmail = (e) => {
     setEmail(e.target.value);
   };
@@ -24,8 +26,10 @@ function Login() {
         password,
       };
       const responseData = await UserAPI.postSignUpAdmin(user);
-      if (responseData.statusText === "OK") {
+      if (responseData) {
         console.log("responseData", responseData);
+        setCookie('accessToken',responseData.data);
+        console.log(cookies);
         history.push("/home");
         window.location.reload() 
         setLoad(true);

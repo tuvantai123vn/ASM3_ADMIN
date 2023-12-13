@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import React from "react";
 import axios from "axios";
 import Cookies from "universal-cookie";
 

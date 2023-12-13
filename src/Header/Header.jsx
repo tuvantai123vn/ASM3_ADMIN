@@ -5,7 +5,6 @@ import Logolight from "../Image/logo-light-text.png";
 
 function Header(props) {
   const { user } = props;
-  console.log(user);
   return (
     <header className="topbar" data-navbarbg="skin6">
       <nav className="navbar top-navbar navbar-expand-md">
@@ -48,8 +47,6 @@ function Header(props) {
             aria-haspopup="true"
             aria-expanded="false"
           >
-            {/* <img src="../assets/images/users/IMG_6225.jpg" alt="user" className="rounded-circle"
-                                    width="40" /> */}
             <span className="ml-2 d-none d-lg-inline-block">
               <span>Hello,</span> <span className="text-dark">{user.name}</span>{" "}
             </span>

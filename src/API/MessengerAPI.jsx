@@ -2,12 +2,12 @@ import axiosClient from './axiosClient';
 
 const MessengerAPI = {
 	getMessage: () => {
-		const url = `/auth/mess/get/all`;
+		const url = `/mess/get/all`;
 		return axiosClient.get(url);
 	},
 
 	getMessageId: (query) => {
-		const url = `/auth/mess/${query}`;
+		const url = `/mess/${query}`;
 		return axiosClient.get(url);
 	},
 };

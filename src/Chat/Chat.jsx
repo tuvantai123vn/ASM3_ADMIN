@@ -4,7 +4,7 @@ import MessengerAPI from "../API/MessengerAPI";
 import "./Chat.css";
 import axios from "axios";
 
-const host = "http://localhost:5001";
+const host = "https://asm3-be-4qtm.onrender.com/";
 
 function Chat() {
   const [message, setMessage] = useState([]);
@@ -15,34 +15,33 @@ function Chat() {
 
   const socketRef = useRef();
 
-  const onChangeText = (e) => {
-    setTextMessage(e.target.value);
-  };
-
   useEffect(() => {
-    async function fetchData() {
+    const fetchData = async () => {
       try {
-        const res = await axios.get("http://localhost:5001/auth/mess/get/all");
-        // Truy cập vào dữ liệu từ phản hồi Axios
+        const res = await axios.get(`${host}/mess/get/all`);
         setRoomslist(res.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
-    }
+    };
 
     fetchData();
   }, []);
 
+  const onChangeText = (e) => {
+    setTextMessage(e.target.value);
+  };
+
   const fetchMessageData = async (value) => {
     try {
-      const response = await MessengerAPI.getMessageId(value);
+      const response = await MessengerAPI.getMessageId(value || id);
       setMessage(response.data);
     } catch (error) {
       console.error("Error fetching messages:", error);
     }
   };
 
-  const handler_id_user = (value) => {
+  const handleIdUser = (value) => {
     connectToSocket();
     setid(value);
     fetchMessageData(value);
@@ -60,11 +59,11 @@ function Chat() {
     };
   };
 
-  const handlerSend = () => {
+  const handleSend = () => {
     if (socketRef.current && textMessage.trim() !== "") {
       const value = {
         content: textMessage,
-        id: localStorage.getItem("id_user"),
+        id: id,
         name: localStorage.getItem("name_user"),
         isAdmin: true,
       };
@@ -75,9 +74,7 @@ function Chat() {
   };
 
   useEffect(() => {
-    if (id) {
-      fetchMessageData();
-    }
+    fetchMessageData();
     setLoad(false);
   }, [load]);
 
@@ -136,7 +133,7 @@ function Chat() {
                             roomlist?.map((value) => (
                               <a
                                 key={value._id}
-                                onClick={() => handler_id_user(value.id_user)}
+                                onClick={() => handleIdUser(value.id_user)}
                                 className="message-item d-flex align-items-center border-bottom px-3 py-2 active_user"
                               >
                                 <div className="user-img">
@@ -174,11 +171,11 @@ function Chat() {
                   >
                     <ul className="chat-list list-style-none px-3 pt-3">
                       {message &&
-                        message?.content?.map((value) =>
+                        message?.content?.map((value, index) =>
                           value.isAdmin ? (
                             <li
                               className="chat-item odd list-style-none mt-3 text-right"
-                              key={value.id_user}
+                              key={`admin_${index}`}
                             >
                               <div className="chat-content text-right d-inline-block pl-3">
                                 <div className="box msg p-2 d-inline-block mb-1">
@@ -190,7 +187,7 @@ function Chat() {
                           ) : (
                             <li
                               className="chat-item list-style-none mt-3"
-                              key={value.id}
+                              key={`user_${index}`}
                             >
                               <div className="chat-img d-inline-block">
                                 <img
@@ -231,7 +228,7 @@ function Chat() {
                       <div className="col-3">
                         <a
                           className="btn-circle btn-lg btn-cyan float-right text-white"
-                          onClick={handlerSend}
+                          onClick={handleSend}
                         >
                           <i className="fas fa-paper-plane"></i>
                         </a>

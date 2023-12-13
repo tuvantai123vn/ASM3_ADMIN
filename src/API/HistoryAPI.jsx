@@ -7,7 +7,7 @@ const HistoryAPI = {
 	},
 
 	getDetail: (id) => {
-		const url = `/histories/${id}`;
+		const url = `/order/${id}`;
 		return axiosClient.get(url);
 	},
 

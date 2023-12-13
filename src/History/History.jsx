@@ -100,7 +100,7 @@ function History(props) {
                                   color: "white",
                                 }}
                                 className="btn btn-success"
-                                href={`http://localhost:3001/history/${value._id}`}
+                                href={`https://iridescent-gaufre-b6638d.netlify.app/history/${value._id}`}
                               >
                                 View
                               </a>

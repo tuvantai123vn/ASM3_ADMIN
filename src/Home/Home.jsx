@@ -9,8 +9,6 @@ function Home(props) {
   const [order, setOrder] = useState([]);
   const date = new Date();
 
-  console.log('props', props);
-
   const formatCurrency = (value) => {
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ProductAPI from "../API/ProductAPI";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const Update = () => {
   const [product, setProduct] = useState({
