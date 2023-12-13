@@ -11,7 +11,6 @@ function History(props) {
   useEffect(() => {
     const fetchData = async () => {
       const response = await HistoryAPI.getAll();
-      console.log(response);
 
       setHistory(response.data);
     };
@@ -100,7 +99,7 @@ function History(props) {
                                   color: "white",
                                 }}
                                 className="btn btn-success"
-                                href={`https://iridescent-gaufre-b6638d.netlify.app/history/${value._id}`}
+                                href={`/history/${value._id}`}
                               >
                                 View
                               </a>

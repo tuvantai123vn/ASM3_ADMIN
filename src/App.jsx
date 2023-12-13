@@ -70,7 +70,7 @@ function App() {
               roles={["admin"]}
               role={role}
             />
-            <ProtectedRoute
+            <ProtectedRoute exact
               path="/history"
               component={History}
               roles={["admin"]}

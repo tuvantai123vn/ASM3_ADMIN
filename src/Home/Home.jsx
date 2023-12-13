@@ -194,7 +194,7 @@ function Home(props) {
                                   color: "white",
                                 }}
                                 className="btn btn-success"
-                                href={`http://localhost:3001/history/${value._id}`}
+                                href={`/history/${value._id}`}
                               >
                                 View
                               </a>
